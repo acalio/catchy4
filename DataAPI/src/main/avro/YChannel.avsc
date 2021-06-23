@@ -1,0 +1,55 @@
+{
+  "namespace": "org.acalio.dm.model.avro",
+  "type": "record",
+  "name": "YChannel",
+  "fields": [
+    {
+	"name": "id",
+	"type": "string"
+    },
+    {
+	"name": "title",
+	"type": "string"
+    },
+    {
+	"name": "description",
+	"type": "string"
+    },
+    {
+	"name": "country",
+	"type": ["null", "string"]
+    },
+    {
+	"name": "verified",
+	"type": "boolean"
+    },
+    {
+	"name": "likedVideosPlaylistId",
+	"type": "string"
+    },
+    {
+	"name": "viewCount",
+	"type": "long"
+    },
+    {
+	"name": "subscriberCount",
+	"type": "long"
+    },
+    {
+	"name": "hiddensubscribercount",
+	"type": "boolean"
+    },
+    {
+	"name": "videoCount",
+	"type": "long"
+    },
+    {
+	"name": "publishedAt",
+	"type": {
+	    "type": "long",
+	    "logitcalType": "timestamp-millis"
+	}
+    }
+  ]
+}
+      

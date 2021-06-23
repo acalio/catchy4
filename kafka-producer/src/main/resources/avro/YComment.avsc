@@ -1,0 +1,47 @@
+{
+  "namespace": "org.acalio.dm.model.avro",
+  "type": "record",
+  "name": "YComment",
+  "fields": [
+    {
+	"name": "id",
+	"type": "string"
+    },
+    {
+	"name": "text",
+	"type": "string"
+    },
+    {
+	"name": "videoId",
+	"type": "string"
+    },
+    {
+	"name": "authorChannelId",
+	"type": "string"
+    },
+    {
+	"name": "authorChannelUrl",
+	"type": "string"
+    },
+    {
+	  "name": "authorDisplayName",
+	  "type": "string"
+    },
+    {
+	"name": "likeCount",
+	"type": "long"
+    },
+    {
+	"name": "publishedAt",
+	"type": {
+	    "type": "long",
+	    "logitcalType": "timestamp-millis"
+	}
+    },
+    {
+        "name": "parentID",
+	"type": ["null", "string"]
+    }
+  ]
+}
+      

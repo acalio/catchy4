@@ -1,0 +1,87 @@
+{
+  "namespace": "org.acalio.dm.model.avro",
+  "type": "record",
+  "name": "YVideo",
+  "fields": [
+    {
+	"name": "id",
+	"type": "string"
+    },
+    {
+	"name": "channelId",
+	"type": "string"
+    },
+    {
+	"name": "title",
+	"type": "string"
+    },
+    {
+	"name": "description",
+	"type": "string"
+    },
+    {
+	"name": "duration",
+	"type": "long",
+	"default": -1
+    },
+    {
+	"name": "tags",
+	"type": 
+	    {
+		"type":"array",
+		"items": "string"
+	    },
+	"default": []
+    },  
+      
+    {
+	"name": "viewCount",
+	"type": "long",
+	"default": -1
+	
+    },
+    {
+	"name": "likeCount",
+	"type": "long",
+	"default": -1
+    },
+    {
+	"name": "dislikeCount",
+	"type": "long",
+	"default": -1
+    },
+    {
+	"name": "commentCount",
+	"type": "long",
+	"default": -1
+    },
+
+    {
+	"name": "disabledComments",
+	"type": "boolean",
+	"default": false
+
+    },
+
+    {
+	"name": "defaultAudioLanguage",
+	"type": "string",
+	"default": "unk"
+    },
+    {
+	"name": "defaultLanguage",
+	"type": "string",
+	"default": "unk"
+
+    },
+      
+    {
+	"name": "publishedAt",
+	"type": {
+	    "type": "long",
+	    "logitcalType": "timestamp-millis"
+	}
+    }
+  ]
+}
+      

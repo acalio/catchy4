@@ -1,0 +1,23 @@
+{
+  "namespace": "org.acalio.dm.model.avro",
+  "type": "record",
+  "name": "YLike",
+  "fields": [
+    {
+	"name": "userId",
+	"type": "string"
+    },
+    {
+	"name": "videoId",
+	"type": "string"
+    },
+    {
+	"name": "publishedAt",
+	"type": {
+	    "type": "long",
+	    "logitcalType": "timestamp-millis"
+	}
+    }
+  ]
+}
+      

@@ -1,0 +1,31 @@
+{
+  "namespace": "org.acalio.dm.model.avro",
+  "type": "record",
+  "name": "YVideo",
+  "fields": [
+    {
+	"name": "id",
+	"type": "string"
+    },
+    {
+	"name": "channelId",
+	"type": "string"
+    },
+    {
+	"name": "title",
+	"type": "string"
+    },
+    {
+	"name": "description",
+	"type": "string"
+    },
+    {
+	"name": "publishedAt",
+	"type": {
+	    "type": "long",
+	    "logitcalType": "timestamp-millis"
+	}
+    }
+  ]
+}
+      

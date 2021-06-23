@@ -1,0 +1,16 @@
+.gitignore
+*.class
+.bloop
+.*
+!/.gitignore
+!/.projectile
+
+DataAPI/project
+nlp/project
+**/target
+
+**/project/metals.sbt
+**/project/project
+.metals
+spark-consumer/lib/standford-corenlp-4.0.0-models.jar
+\#*

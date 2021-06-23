@@ -1,0 +1,178 @@
+#+options: h:1 num:nil toc:nil
+* Overview
+This application is developed as part of the following research project:
+- CATCH 4.0 An intelligent Consumer-centric Approach To manage engagements, Contents & insights
+- CUP: B78I20000130005
+
+It is part of a larger system for gathering users data from different
+channels/platforms, with the purpose of providing valuable data that
+can support the definition of marketing campaigns aimed at enhancing
+the customer engagement.  
+
+More specifically, this project is concerned with the extraction of users
+related data from the YouTube platform.
+
+* Pipeline
+The project is designed after the following pipeline.
+#+caption: Data Pipeline
+[[file:img/pipeline.png]]
+
+1. A query is issued to YouTube
+2. The results of the previous step are ingested into a system of
+   Kafka topics
+3. A Spark cluster is in charge of consuming and processing the messages extracted
+   from the Kafka queues. 
+4. The data are stored 
+
+* Data Model
+The following figure represents the entities and the information
+downloaded from the YouTube platform.
+
+#+caption: Data Model
+[[file:img/data-model.png]]
+* Architecture
+There are three different components: 
+** DataAPI
+It defines the interface for interacting with the YouTube API.
+Specifically, it builds on top of the official API to provide the
+users a higher level of abstraction to easily access to the
+information required to instantiate the data model
+*** Requirements
+- Maven Build System
+** Kafka-Producer
+It is responsible for issuing the queries through the  interface
+defined by the previous component, i.e., the =DataAPI=.
+Also, it manages the Kafka cluster. Therefore, it is responsible for
+sending the messages, i.e., the data, to the appropriate topics.
+
+Concretely, there should be a one-to-one mapping between the topics
+and each entity defined in the data model (more on this later).
+*** Requirements
+- sbt, the interactive build tool for Scala
+
+** Spark-Consumer
+It defines the transformations required to manipulate the data as
+defined in the data model into a different format.
+
+It has access to the stream of  data coming from the Kafka cluster and
+it stores the processed data into a Parquet format.
+
+It has two major operating modes:
+- /batch-mode/ - when the source of data is static
+- /streaming-mode/ - when the source  of data is a stream (e.g., Kafka
+  streams)
+
+*** Requirements
+- sbt, the interactive build tool for Scala
+
+* Installation
+** Setting  up the environment
+It is required a fully functional distribution of Docker and
+docker-compose in order to setup the entire environment.
+
+Inside the folder =Docker= there is the docker-compose file that
+builds the entire framework.
+
+Specifically, the compose file sets up the following components:
+- ZooKeeper
+- A Kafka Broker
+- Schema-Registry
+- Redis
+
+  As usual, to initialize the environment, just issue from the
+  =Docker= folder the following command.
+
+
+  #+begin_src  bash
+docker-compose up -d
+#+end_src
+
+
+
+* Use Case Example: Interaction Network
+Imagine you want to collect information about a specific product.
+For instance, you are interested in understanding how the community
+has responded to the launch of a specific product, thus you have to
+monitor how users interact with one another as regards the product itself.
+
+Concretely, once you issue the query, you want to collect information
+about those users that posted a comment under any of the videos
+returned by the above query.
+
+More specifically, the  goal is to extract an interaction network
+by reading the comments section underlying every video.
+
+More formally, a connection between two users $u$ and $v$ in the interaction
+network means that $u$ has responded to a $v$'s comment, thus they have
+interacted with each other.
+
+In the following, we explain how you can accomplish, step by step, the above task
+with the proposed framework.
+
+** Create the topics
+Inside the =Doker= folder there is an utility script that creates the
+topics required in order to store the data model inside the Kafka
+cluster.
+
+#+begin_src bash
+./create-topics.hs <topic-name>
+
+#+end_src
+The above command creates the following topics:
+- =video-<topic-name>= - it stores information about the videos
+  (=YVideo= entity)
+- =channel-<topic-name>= - it stores information about the channels
+  (=YChannel= entity)
+- =subscription-<topic-name>= - it stores information about the
+  subscriptions of the users (=YSubscription= entity) 
+- =comment-<topic-name>=- it stores information about the comments
+  (=YComment= entity)
+- =like-<topic-name>= - it stores information about the likes of the
+  users (=YLike= entity)
+** Run the producer
+Inside the =kafka-producer= folder, the following command starts the producer.
+#+begin_src  bash
+sbt "run  --topic <topic-name> \
+          --broker <broker address> \
+          --registry <schema-registry address> \
+    pipeline -q \"<query>\" "
+#+end_src
+
+The above command performs the entire extraction pipeline with respect
+to the query provided as input.
+
+The figure below shows the algorithm used for the data extraction.
+
+#+caption: Full pipeline extraction algorithm
+[[file:img/algo.png]]
+
+
+** Run the consumer
+Inside the =spark-consumer= folder, the following command starts the
+producer to extract the interaction graph. 
+
+#+begin_src  bash
+sbt "run --out-format parquet --in-format --sink <destination> interaction --comment-path <source>"
+#+end_src
+
+You need to specify a /sink/, namely where the interaction graph has
+to be stored.
+Also, you need to specify the location where the comments are stored.
+
+The above command starts the producer in /batch-mode/. Alternatively,
+you can run the producer in /streaming-mode/  to consume the data directly from the Kafka
+topics.
+
+#+begin_src bash
+sbt "run --out-format parquet --in-format --sink <destination> interaction --comment-topic <topic-name>"  
+#+end_src
+
+** Access to the stored data
+Information are stored in parquet file. However, if this format is
+particularly suitable for a big-data focused environment, it is
+not necessarily the best choice in terms of portability.
+
+For the above reason, in the  =tools= directory there is a script that
+allows you to convert a parquet data store into a single csv file.
+
+

@@ -1,0 +1,505 @@
+#+title: Data Model
+#+options: h:1 num:t toc:nil
+
+#+LaTeX_HEADER: \usepackage{listings}
+#+LaTex_HEADER: \usepackage[ruled,vlined]{algorithm2e}
+
+* Comment
+** Definition
+#+BEGIN_SRC plantuml  :file comment.png
+class Comment {
++String id;
++String authorId;
++String videoId;
+@null
++String parentId;
++String text;
++Time plushedAt;
++Time updateAt;
+}
+#+END_SRC
+
+** Api Call
+
+In the following snippet there is an example of API call result.
+
+More specifically given a =parentId=, this is the result containing all the 
+comments that replies to the comment pointed by =commentId=.
+
+
+* COMMENT
+#+BEGIN_SRC json
+{
+  "kind": "youtube#commentListResponse",
+  "etag": "lAN_n1Q7sZl9bZ4BhHfJ8z-cLjk",
+  "pageInfo": {
+    "resultsPerPage": 20
+  },
+  "items": [
+    {
+      "kind": "youtube#comment",
+      "etag": "rpyHq7lktDo5dS5CKgkAzvv7huM",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09EnFvDnRwEH",
+      "snippet": {
+        "textDisplay": "@Luca Natale well said!",
+        "textOriginal": "@Luca Natale well said!",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Antonio Caliò",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJx4kotrzKtcxc7MAQiXk7xZzOhwBpJULr91daUuug=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCFfbQkUnIjuiSJCHQgOI3Kg",
+        "authorChannelId": {
+          "value": "UCFfbQkUnIjuiSJCHQgOI3Kg"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-10-14T12:38:31Z",
+        "updatedAt": "2020-10-14T12:38:31Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "Zvq2uJiP2SdlQt97F2GPYRDbZ0I",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09DHH-bqWmvk",
+      "snippet": {
+        "textDisplay": "Vedo che c&#39;è guerra qui nelle risposte",
+        "textOriginal": "Vedo che c'è guerra qui nelle risposte",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Francesco Andreini",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzh48OT1WAEKicZRLEFkVVXO8gmjrqtu6x6nA=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCUdshoNJ4q_u9cxlWlaszuQ",
+        "authorChannelId": {
+          "value": "UCUdshoNJ4q_u9cxlWlaszuQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-09-06T20:41:39Z",
+        "updatedAt": "2020-09-06T20:41:39Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "0z6DyTFD4pskLptXfaBdgbKz0qs",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09CwlnApfw4G",
+      "snippet": {
+        "textDisplay": "@Fulvio Zecchin esattamente, usb / sd (ma non hard disk esterni che richiedono elevati consumi di energia)",
+        "textOriginal": "@Fulvio Zecchin esattamente, usb / sd (ma non hard disk esterni che richiedono elevati consumi di energia)",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Ale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJxXnD7YT-M4vzPw793amwUsn8dCblijYXPI72cVJw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCM5P5exgOedGtJNKlIwLwRQ",
+        "authorChannelId": {
+          "value": "UCM5P5exgOedGtJNKlIwLwRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-29T12:16:09Z",
+        "updatedAt": "2020-08-29T12:16:46Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "ZX25Xkvpwb7pIWtGg4jahIcGUU0",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09CwlTexqmeR",
+      "snippet": {
+        "textDisplay": "Ale quindi mi stai dicendo che al mio iPhone 11 pro max posso collegargli una chiavetta usb e spostare file?",
+        "textOriginal": "Ale quindi mi stai dicendo che al mio iPhone 11 pro max posso collegargli una chiavetta usb e spostare file?",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Fulvio Zecchin",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzKSOB8XSIcwIJv7GCjn8y87y2rpTWi6vQhenagLQ=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCC84Rdxx2bT4b3qqSXjE2vA",
+        "authorChannelId": {
+          "value": "UCC84Rdxx2bT4b3qqSXjE2vA"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-29T12:13:21Z",
+        "updatedAt": "2020-08-29T12:13:21Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "DFrc9kaAQkpEdUpIUK26Q1Tn64M",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09CfhVuGuN6q",
+      "snippet": {
+        "textDisplay": "@Luca Natale perché la &#39;obbiettività&#39; esiste?!? Seriamente, in qualsiasi ambito, ancora la si cerca? Ci si crede come a babbo natale?!?",
+        "textOriginal": "@Luca Natale perché la 'obbiettività' esiste?!? Seriamente, in qualsiasi ambito, ancora la si cerca? Ci si crede come a babbo natale?!?",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Stefano Pompa",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJx4ow7mFtAZlddtsgNPC0RDY48mwdBNc5bkS-fvHw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCximN2Dc_dZcDTfC7BNaVUw",
+        "authorChannelId": {
+          "value": "UCximN2Dc_dZcDTfC7BNaVUw"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-22T21:11:37Z",
+        "updatedAt": "2020-08-22T21:11:37Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "zAesAnzKcW135nLUZCCEWDBDULY",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09CaDyScEtlI",
+      "snippet": {
+        "textDisplay": "Kevoi Unana come faccio a sapere se uno che scrive è ironico o meno? Non me lo hai detto a voce, ma ho letto un messaggio che non esprime emozioni quindi come avrei dovuto capirlo? Almeno con un emoticon :)",
+        "textOriginal": "Kevoi Unana come faccio a sapere se uno che scrive è ironico o meno? Non me lo hai detto a voce, ma ho letto un messaggio che non esprime emozioni quindi come avrei dovuto capirlo? Almeno con un emoticon :)",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Ale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJxXnD7YT-M4vzPw793amwUsn8dCblijYXPI72cVJw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCM5P5exgOedGtJNKlIwLwRQ",
+        "authorChannelId": {
+          "value": "UCM5P5exgOedGtJNKlIwLwRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 1,
+        "publishedAt": "2020-08-20T18:08:34Z",
+        "updatedAt": "2020-08-20T18:08:34Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "KxTxiMDzWSF5wnJ4Hcg-TR39yek",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09CaBDU5XmpK",
+      "snippet": {
+        "textDisplay": "@Ale l&#39;ironia non la conosci a quanto pare",
+        "textOriginal": "@Ale l'ironia non la conosci a quanto pare",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Kevoi Unana",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzhagqRWuTUguJi_cVax6GPpg1xOao7T-kkVQ=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCBQ1evWV7b8MimwqTgvJ4eQ",
+        "authorChannelId": {
+          "value": "UCBQ1evWV7b8MimwqTgvJ4eQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T17:44:32Z",
+        "updatedAt": "2020-08-20T17:44:32Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "uqg3VVAHJkr4YpKhxHrw6uzsGzY",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_xEaBu4Mc",
+      "snippet": {
+        "textDisplay": "@Kevoi Unana altra persona che non sa di cosa parla.... intanto impara a scriverlo, si scrive iOS con la i piccola :)",
+        "textOriginal": "@Kevoi Unana altra persona che non sa di cosa parla.... intanto impara a scriverlo, si scrive iOS con la i piccola :)",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Ale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJxXnD7YT-M4vzPw793amwUsn8dCblijYXPI72cVJw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCM5P5exgOedGtJNKlIwLwRQ",
+        "authorChannelId": {
+          "value": "UCM5P5exgOedGtJNKlIwLwRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 2,
+        "publishedAt": "2020-08-20T15:33:37Z",
+        "updatedAt": "2020-08-20T15:33:37Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "chZcb5IGnT-JMmgJQf8XduncoeM",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_uwSSDTQK",
+      "snippet": {
+        "textDisplay": "IOS fa schifo fact",
+        "textOriginal": "IOS fa schifo fact",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Kevoi Unana",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzhagqRWuTUguJi_cVax6GPpg1xOao7T-kkVQ=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCBQ1evWV7b8MimwqTgvJ4eQ",
+        "authorChannelId": {
+          "value": "UCBQ1evWV7b8MimwqTgvJ4eQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 1,
+        "publishedAt": "2020-08-20T15:13:32Z",
+        "updatedAt": "2020-08-20T15:13:32Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "1sSyRw1WcZVJ64Vpse1mbsb4s5M",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_nzZqJRbc",
+      "snippet": {
+        "textDisplay": "Luca Natale ah, ok! 👍🏻",
+        "textOriginal": "Luca Natale ah, ok! 👍🏻",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Flavio Fusco",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzVWlm8z5Lb_QIz3XQoTB6bHLaubCPOMKErJSC-Ug=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCkOdBVbYStkNpE-wpOwlX4w",
+        "authorChannelId": {
+          "value": "UCkOdBVbYStkNpE-wpOwlX4w"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T14:12:47Z",
+        "updatedAt": "2020-08-20T14:12:47Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "pnebdwQhswfLDgae8mmmp8AU7Ks",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_noMd98eH",
+      "snippet": {
+        "textDisplay": "Flavio Fusco lo so.... pt2. \u003cbr /\u003eForse non sono stato chiaro: prendevo in giro coloro che sono ancora convinti di ciò, perchè una delle cose a cui si appigliano le persone per denigrare un prodotto senza nemmeno conoscerlo. Era questo che cercavo di dire.",
+        "textOriginal": "Flavio Fusco lo so.... pt2. \nForse non sono stato chiaro: prendevo in giro coloro che sono ancora convinti di ciò, perchè una delle cose a cui si appigliano le persone per denigrare un prodotto senza nemmeno conoscerlo. Era questo che cercavo di dire.",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Luca Natale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJwVg2BwbstGP4I7yMZhfkmXt5_c5JxsFuV3P3n8=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCbBh92tirWNk5TSIcoGSXsA",
+        "authorChannelId": {
+          "value": "UCbBh92tirWNk5TSIcoGSXsA"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 2,
+        "publishedAt": "2020-08-20T14:11:15Z",
+        "updatedAt": "2020-08-20T14:11:30Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "veGSHU8qSvmghsED21cSTKqfh0s",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_nMpIYnKA",
+      "snippet": {
+        "textDisplay": "Luca Natale stai dicendo una grandissima cavolata! L’iPad ora le legge e come le chiavette!",
+        "textOriginal": "Luca Natale stai dicendo una grandissima cavolata! L’iPad ora le legge e come le chiavette!",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Flavio Fusco",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzVWlm8z5Lb_QIz3XQoTB6bHLaubCPOMKErJSC-Ug=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCkOdBVbYStkNpE-wpOwlX4w",
+        "authorChannelId": {
+          "value": "UCkOdBVbYStkNpE-wpOwlX4w"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T14:07:22Z",
+        "updatedAt": "2020-08-20T14:07:22Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "ZuvKmJ9peDXZ8cBKCYPYmXwXrLc",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_nKdURE2M",
+      "snippet": {
+        "textDisplay": "Luca Natale ah giusto .... ora la gente insulta quelli che hanno il marchio opposto senza neanche conoscerne le funzioni.....",
+        "textOriginal": "Luca Natale ah giusto .... ora la gente insulta quelli che hanno il marchio opposto senza neanche conoscerne le funzioni.....",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Ale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJxXnD7YT-M4vzPw793amwUsn8dCblijYXPI72cVJw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCM5P5exgOedGtJNKlIwLwRQ",
+        "authorChannelId": {
+          "value": "UCM5P5exgOedGtJNKlIwLwRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T14:07:04Z",
+        "updatedAt": "2020-08-20T14:07:04Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "i3P6K9c2ii9z04SbtSMtuTJWOeo",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_nCRuxHGe",
+      "snippet": {
+        "textDisplay": "Eugenio Di Castro, che iPad hai preso?",
+        "textOriginal": "Eugenio Di Castro, che iPad hai preso?",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Flavio Fusco",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzVWlm8z5Lb_QIz3XQoTB6bHLaubCPOMKErJSC-Ug=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCkOdBVbYStkNpE-wpOwlX4w",
+        "authorChannelId": {
+          "value": "UCkOdBVbYStkNpE-wpOwlX4w"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T14:05:57Z",
+        "updatedAt": "2020-08-20T14:05:57Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "qygY6igPsirQfAmXEQrNI8OoHL0",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_jMVdcYvG",
+      "snippet": {
+        "textDisplay": "Ale Si lo so. Fatti un giro nei commenti e vedrai che morti sono ancora convinti del contrario😕",
+        "textOriginal": "Ale Si lo so. Fatti un giro nei commenti e vedrai che morti sono ancora convinti del contrario😕",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Luca Natale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJwVg2BwbstGP4I7yMZhfkmXt5_c5JxsFuV3P3n8=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCbBh92tirWNk5TSIcoGSXsA",
+        "authorChannelId": {
+          "value": "UCbBh92tirWNk5TSIcoGSXsA"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T13:32:22Z",
+        "updatedAt": "2020-08-20T13:32:22Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "ZBwHJWJ7ybMT0lvkadkFe1tQNLE",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_gZJYi80O",
+      "snippet": {
+        "textDisplay": "Luca Natale sorry, ma si che legge le chiavette iOS haha",
+        "textOriginal": "Luca Natale sorry, ma si che legge le chiavette iOS haha",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Ale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJxXnD7YT-M4vzPw793amwUsn8dCblijYXPI72cVJw=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCM5P5exgOedGtJNKlIwLwRQ",
+        "authorChannelId": {
+          "value": "UCM5P5exgOedGtJNKlIwLwRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 0,
+        "publishedAt": "2020-08-20T13:07:54Z",
+        "updatedAt": "2020-08-20T13:07:54Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "C0jmAudS3uuYDmu5DXJEeL9DfPY",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_fqPvGg0X",
+      "snippet": {
+        "textDisplay": "@Luca Natale come le persone che comprano un telefono solo per la marca",
+        "textOriginal": "@Luca Natale come le persone che comprano un telefono solo per la marca",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Gabriele Giustizieri",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJwgqUSlvow7_04rGIo0lY2rpQ_XL8l_IpoMrRLXDQ=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UC-O3vJYy1c7MaH2QSwp7sOQ",
+        "authorChannelId": {
+          "value": "UC-O3vJYy1c7MaH2QSwp7sOQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 3,
+        "publishedAt": "2020-08-20T13:01:38Z",
+        "updatedAt": "2020-08-20T13:01:38Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "rc2zWapteMGWx4JJdF1yBp4NUxg",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_bOTaFCMo",
+      "snippet": {
+        "textDisplay": "Natan • 3 giorni e Ogni anno è la stessa canzoncina: apple ha un sistema chiuso non legge nemmeno le chiavette, fa schifo. Android fa schifo i telefoni vengono aggiornati un anno e poi diventano scaffali. Giuro che gli suonerei i loro telefoni e tablet in testa, molto forte",
+        "textOriginal": "Natan • 3 giorni e Ogni anno è la stessa canzoncina: apple ha un sistema chiuso non legge nemmeno le chiavette, fa schifo. Android fa schifo i telefoni vengono aggiornati un anno e poi diventano scaffali. Giuro che gli suonerei i loro telefoni e tablet in testa, molto forte",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Luca Natale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJwVg2BwbstGP4I7yMZhfkmXt5_c5JxsFuV3P3n8=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCbBh92tirWNk5TSIcoGSXsA",
+        "authorChannelId": {
+          "value": "UCbBh92tirWNk5TSIcoGSXsA"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 8,
+        "publishedAt": "2020-08-20T12:22:44Z",
+        "updatedAt": "2020-08-20T12:22:44Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "pvVuhJ28PuiOyI9IrFEVxJq0Bd4",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_b4hAnxCt",
+      "snippet": {
+        "textDisplay": "Luca Natale orma si sente solo: apple merda o android merda....",
+        "textOriginal": "Luca Natale orma si sente solo: apple merda o android merda....",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Natan • 3 giorni e",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJySVDMbGk_g6qLNw_HJJOy5b83jAnYsXZNh2MGe8g=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCON9F6k4Ii7EZILsQq4_lRQ",
+        "authorChannelId": {
+          "value": "UCON9F6k4Ii7EZILsQq4_lRQ"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 2,
+        "publishedAt": "2020-08-20T12:20:02Z",
+        "updatedAt": "2020-08-20T12:20:02Z"
+      }
+    },
+    {
+      "kind": "youtube#comment",
+      "etag": "mVmwdVIn7EIlZNpGRUHqPEH_Ig8",
+      "id": "UgxxD6vG0H-BW1yVsg14AaABAg.9C_RJyhXAw09C_XWW-LrYL",
+      "snippet": {
+        "textDisplay": "Oh, incredibile. Allora esistono ancora persone obiettive che evitano commenti stupidi da fanboy. I miei complimenti, ormai l’obiettività in campo tecnologico è molto rara.",
+        "textOriginal": "Oh, incredibile. Allora esistono ancora persone obiettive che evitano commenti stupidi da fanboy. I miei complimenti, ormai l’obiettività in campo tecnologico è molto rara.",
+        "parentId": "UgxxD6vG0H-BW1yVsg14AaABAg",
+        "authorDisplayName": "Luca Natale",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJwVg2BwbstGP4I7yMZhfkmXt5_c5JxsFuV3P3n8=s48-c-k-c0xffffffff-no-rj-mo",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCbBh92tirWNk5TSIcoGSXsA",
+        "authorChannelId": {
+          "value": "UCbBh92tirWNk5TSIcoGSXsA"
+        },
+        "canRate": true,
+        "viewerRating": "none",
+        "likeCount": 44,
+        "publishedAt": "2020-08-20T11:40:08Z",
+        "updatedAt": "2020-08-20T11:40:08Z"
+      }
+    }
+  ],
+  "nextPageToken": "R0FJeVZnbzBJTDJLeWV6MDZPd0NNaWtRQUJqT21NU28yYW5yQWlBQUtBTXdDam9XT1VOZlVrcDVhRmhCZHpBNVExOVlWMWN0VEhKWlRCSWVDQVVTR2xWbmVIaEVOblpITUVndFFsY3hlVlp6WnpFMFFXRkJRa0ZuT2lBSUFSSWNOVHBWWjNoNFJEWjJSekJJTFVKWE1YbFdjMmN4TkVGaFFVSkJadw=="
+}
+
+#+END_SRC
+
+
+* My Api
+In this section we describe how to use our custom API, built around the Youtube-Api, in order to
+extract all the significant information related to our application.
+
+Data are required in order to build the following knowledge system.
+
+- Comments/Replies Graph
+- LikeGraph
+- Subscription Graph -- it might be subject to some YouTube restrictions
+
+
+** Pipeline for the Comments/Replies Graph
+
+Below is the high-level algorithm for extractng the Comments/Replies 
+required to build the final graph.
+
+#+begin_latex
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwIn{A query Q, Number of videos to be processed N}
+ 
+ Execute Query Q get first N related videos\;	
+ \ForEach{video} {
+     store(video)\;		 
+     comments \gets API.commentthread(video.id)\;
+     \ForEach{comment)}{
+        store(comment)\;
+	\If(comment.replies.length>0){
+	  replies \gets API.comment(parentid=comment.id)\;
+	  \ForEach{reply in replies}{
+	     store(reply)
+	  }
+	}	
+     }			 
+ }
+ 
+\caption{Given a Query }
+\end{algorithm}
+#+end_latex
+
